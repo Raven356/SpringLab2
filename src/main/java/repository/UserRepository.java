@@ -1,0 +1,16 @@
+package repository;
+
+import actors.User;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+
+@Repository
+public class UserRepository {
+    private ArrayList<User> users = new ArrayList<User>(){
+        {
+            add(new User("user", "kittie@gmail.com", "kittieLover"));
+            add(new User("admin", "admin", "admin"));
+        }
+    };
+}
