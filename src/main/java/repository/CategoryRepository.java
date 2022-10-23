@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class CategoryRepository {
     private ArrayList<Category> categories = new ArrayList<Category>(){
         {
-            add(new Category(new ArrayList<Category>(){
+            add(new Category("a", new ArrayList<Category>(){
             {
-                add(new Category(null, new ArrayList<Goods>(){
+                add(new Category("a.b",null, new ArrayList<Goods>(){
                     {
                         add(new Goods("a", 12));
                         add(new Goods("b", 12));
@@ -21,7 +21,7 @@ public class CategoryRepository {
             }
         }
         , null));
-            add(new Category(null, new ArrayList<Goods>(){
+            add(new Category("c", null, new ArrayList<Goods>(){
                 {
                     add(new Goods("c", 14));
                     add(new Goods("d", 15));
@@ -39,11 +39,59 @@ public class CategoryRepository {
         categories.add(category);
     }
 
-    public void DeleteCategory(Category category){
-        categories.remove(category);
+    public void DeleteCategory(Category deleteCategory){
+        Category searched;
+        for(Category category : categories){
+            if(category.GetCategories()!= null){
+                searched = SearchForCategory(category, deleteCategory);
+            }
+            else {
+                searched = null;
+            }
+            if(searched != null){
+                categories.remove(searched);
+                return;
+            }
+            else if(category.GetName().equals(deleteCategory.GetName())){
+                categories.remove(category);
+                return;
+            }
+        }
+
     }
 
     public void ChangeCategory(Category oldCategory, Category newCategory){
+        Category searched;
+        for(Category category : categories){
+            if(category.GetCategories() != null)
+                searched = SearchForCategory(category, oldCategory);
+            else
+                searched = null;
+            if(searched != null){
+                Change(searched, newCategory);
+                return;
+            }
+            else if(category.GetName().equals(oldCategory.GetName()))
+            {
+                Change(category, newCategory);
+                return;
+            }
+        }
+
+    }
+
+    private Category SearchForCategory(Category catForSearch, Category searchCategory){
+        Category searched = null;
+        for(Category category:catForSearch.GetCategories()){
+            if(category.GetCategories() != null)
+                searched = SearchForCategory(category, searchCategory);
+            else if(category.GetName().equals(searchCategory.GetName()))
+                return category;
+        }
+        return searched;
+    }
+
+    private void Change(Category oldCategory, Category newCategory){
         int position = categories.indexOf(oldCategory);
         categories.remove(oldCategory);
         categories.add(position, newCategory);
