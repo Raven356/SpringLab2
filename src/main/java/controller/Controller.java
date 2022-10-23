@@ -10,6 +10,9 @@ import repository.UserRepository;
 @org.springframework.stereotype.Controller
 public class Controller {
 
+    //TODO
+    //Add constructor with services
+
     @GetMapping("/")
     public String StartPage(Model model){
         model.addAttribute("categories", new CategoryRepository().GetCategories());//change to Category service
@@ -24,7 +27,7 @@ public class Controller {
     @PostMapping(value = "/log-in")
     public String CheckLogin(@ModelAttribute User user, Model model){
         UserRepository repository = new UserRepository(); // change to service
-        
+
         for (User user1 : repository.GetUsers()){
             if(user1.GetMail().equals(user.GetMail())) {
                 if (user1.GetPassword().equals(user.GetPassword())) {
