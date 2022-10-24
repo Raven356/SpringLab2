@@ -54,3 +54,4 @@ public class Config {
                 .logoutSuccessUrl("/");
         return httpSecurity.build();
     }
+}
