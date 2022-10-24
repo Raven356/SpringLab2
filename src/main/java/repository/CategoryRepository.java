@@ -31,69 +31,13 @@ public class CategoryRepository {
         }
     };
 
-    public ArrayList<Category> GetCategories(){
+    public ArrayList<Category> getCategories(){
         return categories;
     }
 
-    public void AddCategory(Category category){
-        categories.add(category);
-    }
+    public void setCategories(ArrayList<Category> categories)
+    {
+        this.categories = categories;
 
-    public void DeleteCategory(Category deleteCategory){
-        Category searched;
-        for(Category category : categories){
-            if(category.getCategories()!= null){
-                searched = SearchForCategory(category, deleteCategory);
-            }
-            else {
-                searched = null;
-            }
-            if(searched != null){
-                categories.remove(searched);
-                return;
-            }
-            else if(category.getName().equals(deleteCategory.getName())){
-                categories.remove(category);
-                return;
-            }
-        }
-
-    }
-
-    public void ChangeCategory(Category oldCategory, Category newCategory){
-        Category searched;
-        for(Category category : categories){
-            if(category.getCategories() != null)
-                searched = SearchForCategory(category, oldCategory);
-            else
-                searched = null;
-            if(searched != null){
-                Change(searched, newCategory);
-                return;
-            }
-            else if(category.getName().equals(oldCategory.getName()))
-            {
-                Change(category, newCategory);
-                return;
-            }
-        }
-
-    }
-
-    private Category SearchForCategory(Category catForSearch, Category searchCategory){
-        Category searched = null;
-        for(Category category:catForSearch.getCategories()){
-            if(category.getCategories() != null)
-                searched = SearchForCategory(category, searchCategory);
-            else if(category.getName().equals(searchCategory.getName()))
-                return category;
-        }
-        return searched;
-    }
-
-    private void Change(Category oldCategory, Category newCategory){
-        int position = categories.indexOf(oldCategory);
-        categories.remove(oldCategory);
-        categories.add(position, newCategory);
     }
 }

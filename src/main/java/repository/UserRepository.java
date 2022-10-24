@@ -1,6 +1,7 @@
 package repository;
 
 import actors.User;
+import models.Category;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,7 +15,10 @@ public class UserRepository {
         }
     };
 
-    public ArrayList<User> GetUsers(){
-        return users;
+    public ArrayList<User> getUsers() { return this.users; }
+    public void setUsers(ArrayList<User> users)
+    {
+        this.users = users;
+
     }
 }

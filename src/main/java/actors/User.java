@@ -15,6 +15,7 @@ public class User {
     }
 
 
+
     public void setMail(String mail){
         this.mail = mail;
     }
@@ -22,6 +23,7 @@ public class User {
     public void setPassword(String password){
         this.password = password;
     }
+
     public String getRole()
     {
         return role;
