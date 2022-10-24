@@ -18,7 +18,7 @@ public class CategoriesService
     {
         categoryRepository = CatRepo;
     }
-    public ArrayList<Category> GetCategories(){
+    public ArrayList<Category> getCategories(){
         return categoryRepository.getCategories();
     }
 
