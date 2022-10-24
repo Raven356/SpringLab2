@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <link rel="stylesheet" type="text/css" href="/adminStyle.css">
 </head>
 <body>
     <h1>Admin</h1>
+    <a href="/"> ➡ back to main</a>
+    <!-- Create categories and products-->
+    <form action="#"  th:action="@{/addCategory}" method="post">
+        <h2>Create categories and products</h2>
+        <p th:object="${category}">Add category: Name: <input type="text" th:field="*{name}"></p>
+        <div th:object="${categoryGoodsNames}">
+            <p>Add category: Category: <input type="text" th:field="*{subCategoryName}"></p>
+            <p>Add category: Goods: <input type="text" th:field="*{itemsName}"></p>
+        </div>
+        <button id="create">Create!</button>
+    </form>
+    <!--Edit categories and products-->
+    <form action="#" th:action="@{/changeCategory}" method="post">
+        <h2>Edit categories and products</h2>
+        <div th:object="${oldCategory}">
+            <p>Old category/product: Name: <input type="text" th:field="*{name}"></p>
+        </div>
+        <div th:object="${categoryGoodsNames}">
+            <p>New category/product: Name: <input type="text" th:field="*{categoryName}"> </p>
+            <p>New category/product: Category: <input type="text" th:field="*{subCategoryName}"> </p>
+            <p>New category/product: Goods: <input type="text" th:field="*{itemsName}"> </p>
+        </div>
+        <button id="edit">Edit!</button>
+    </form>
+    <!--Delete categories and products-->
+    <form action="#" th:action="@{/deleteCategory}" th:object="${deleteCategory}" method="post">
+        <h2>Delete categories and products</h2>
+        <p>Delete category/product: Name: <input type="text" th:field="*{name}"></p>
+        <p th:object="${categoryGoodsNames}">Delete category/product: Goods: <input type="text" th:field="*{itemsName}"></p>
+        <button id="delete">Delete!</button>
+    </form>
 </body>
 </html>
