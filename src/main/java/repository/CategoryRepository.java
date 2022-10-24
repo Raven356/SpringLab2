@@ -2,11 +2,14 @@ package repository;
 
 import models.Category;
 import models.Goods;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 
 @Repository
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class CategoryRepository {
     private ArrayList<Category> categories = new ArrayList<Category>(){
         {
@@ -31,69 +34,13 @@ public class CategoryRepository {
         }
     };
 
-    public ArrayList<Category> GetCategories(){
+    public ArrayList<Category> getCategories(){
         return categories;
     }
 
-    public void AddCategory(Category category){
-        categories.add(category);
-    }
+    public void setCategories(ArrayList<Category> categories)
+    {
+        this.categories = categories;
 
-    public void DeleteCategory(Category deleteCategory){
-        Category searched;
-        for(Category category : categories){
-            if(category.GetCategories()!= null){
-                searched = SearchForCategory(category, deleteCategory);
-            }
-            else {
-                searched = null;
-            }
-            if(searched != null){
-                categories.remove(searched);
-                return;
-            }
-            else if(category.GetName().equals(deleteCategory.GetName())){
-                categories.remove(category);
-                return;
-            }
-        }
-
-    }
-
-    public void ChangeCategory(Category oldCategory, Category newCategory){
-        Category searched;
-        for(Category category : categories){
-            if(category.GetCategories() != null)
-                searched = SearchForCategory(category, oldCategory);
-            else
-                searched = null;
-            if(searched != null){
-                Change(searched, newCategory);
-                return;
-            }
-            else if(category.GetName().equals(oldCategory.GetName()))
-            {
-                Change(category, newCategory);
-                return;
-            }
-        }
-
-    }
-
-    private Category SearchForCategory(Category catForSearch, Category searchCategory){
-        Category searched = null;
-        for(Category category:catForSearch.GetCategories()){
-            if(category.GetCategories() != null)
-                searched = SearchForCategory(category, searchCategory);
-            else if(category.GetName().equals(searchCategory.GetName()))
-                return category;
-        }
-        return searched;
-    }
-
-    private void Change(Category oldCategory, Category newCategory){
-        int position = categories.indexOf(oldCategory);
-        categories.remove(oldCategory);
-        categories.add(position, newCategory);
     }
 }

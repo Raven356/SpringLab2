@@ -1,19 +1,37 @@
 package models;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Goods {
     private String name;
     private int price;
 
+    public Goods(){
+
+    }
     public Goods(String name, int price){
         this.name = name;
         this.price = price;
     }
 
-    public String GetName(){
+    public String getName(){
         return name;
     }
 
-    public int GetPrice(){
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setPrice(int price){
+        this.price = price;
+    }
+    public int getPrice(){
         return price;
+    }
+
+    public String getFullInfo(){
+        return "Name = " + name + ", Price = " + price;
     }
 }
