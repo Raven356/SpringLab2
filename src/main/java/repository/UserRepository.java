@@ -13,4 +13,5 @@ public class UserRepository {
             add(new User("admin", "admin", "admin"));
         }
     };
+    public ArrayList<User> GetUsers() { return this.users; }
 }

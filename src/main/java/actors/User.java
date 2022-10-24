@@ -1,5 +1,9 @@
 package actors;
 
+import lombok.Data;
+import org.springframework.stereotype.Component;
+
+@Data
 public class User {
     private String role;
     private String mail;

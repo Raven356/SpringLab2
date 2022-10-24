@@ -1,12 +1,36 @@
 package controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import actors.User;
+import models.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import repository.CategoryRepository;
+import repository.UserRepository;
+import services.CategoriesService;
+import services.UserService;
 
 @org.springframework.stereotype.Controller
-public class Controller {
+@ComponentScan(basePackages={"services"})
+public class Controller
+{
+    private final CategoriesService categoriesService;
+    private final UserService userService;
+    @Autowired
+    public Controller(CategoriesService categoriesService, UserService userService)
+    {
+        this.categoriesService = categoriesService;
+        this.userService = userService;
+    }
+
+    //TODO
+    //Add constructor with services
 
     @GetMapping("/")
-    public String StartPage(){
+    public String StartPage(Model model){
+        model.addAttribute("categories", new CategoryRepository().GetCategories());//change to Category service
         return "index";
     }
 
@@ -15,14 +39,42 @@ public class Controller {
         return "log_in";
     }
 
+    @PostMapping(value = "/log-in")
+    public String CheckLogin(@ModelAttribute User user, Model model){
+        UserService userService = new UserService(new UserRepository());
+        if (!userService.AdminCheck(user)) {
+            model.addAttribute("wrongPass", "Your data was wrong");
+            return "log_in";
+        }
+        else return "admin";
+    }
+
     @GetMapping("/admin.html")
     public String Admin(){
         return "admin";
     }
 
+    @RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
+    public String AdminChange(@ModelAttribute Category oldCategory, @ModelAttribute Category newCategory){
+        new CategoriesService(new CategoryRepository()).ChangeCategory(oldCategory, newCategory); // change to service
+        return "admin";
+    }
+
+    @PostMapping(value = "/addCategory")
+    public String AdminAdd(@ModelAttribute("category") Category category){
+        new CategoriesService(new CategoryRepository()).AddCategory(category); // change to service
+        return "admin";
+    }
+    @PostMapping(value = "/deleteCategory")
+    public String AdminDelete(@ModelAttribute Category category){
+        new CategoriesService(new CategoryRepository()).DeleteCategory(category); // change to service
+        return "admin";
+    }
+
+
     @GetMapping("/index")
     public String Back(){
-        return StartPage();
+        return "index";
     }
 
 
