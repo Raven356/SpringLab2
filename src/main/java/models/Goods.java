@@ -1,8 +1,8 @@
 package models;
 
 public class Goods {
-    private String name;
-    private int price;
+    public String name;
+    public int price;
 
     public Goods(String name, int price){
         this.name = name;
@@ -15,5 +15,9 @@ public class Goods {
 
     public int getPrice(){
         return price;
+    }
+
+    public String GetFullInfo(){
+        return "Name = " + name + ", Price = " + price;
     }
 }
