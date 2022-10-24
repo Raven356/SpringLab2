@@ -24,7 +24,7 @@ public class Controller {
         return "log_in";
     }
 
-    @PostMapping(value = "/log_in.html")
+    @PostMapping(value = "/log-in")
     public String CheckLogin(@ModelAttribute User user, Model model){
         UserRepository repository = new UserRepository(); // change to service
 
@@ -52,18 +52,18 @@ public class Controller {
         return "admin";
     }
 
-    @RequestMapping(value = "/admin.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
     public String AdminChange(@ModelAttribute Category oldCategory, @ModelAttribute Category newCategory){
         new CategoryRepository().ChangeCategory(oldCategory, newCategory); // change to service
         return "admin";
     }
 
-    @PostMapping(value = "/admin.html")
+    @PostMapping(value = "/addCategory")
     public String AdminAdd(@ModelAttribute Category category){
         new CategoryRepository().AddCategory(category); // change to service
         return "admin";
     }
-    @PostMapping(value = "/admin.html")
+    @PostMapping(value = "/deleteCategory")
     public String AdminDelete(@ModelAttribute Category category){
         new CategoryRepository().DeleteCategory(category); // change to service
         return "admin";
