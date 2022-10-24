@@ -42,7 +42,7 @@ public class CategoryRepository {
     public void DeleteCategory(Category deleteCategory){
         Category searched;
         for(Category category : categories){
-            if(category.GetCategories()!= null){
+            if(category.getCategories()!= null){
                 searched = SearchForCategory(category, deleteCategory);
             }
             else {
@@ -52,7 +52,7 @@ public class CategoryRepository {
                 categories.remove(searched);
                 return;
             }
-            else if(category.GetName().equals(deleteCategory.GetName())){
+            else if(category.getName().equals(deleteCategory.getName())){
                 categories.remove(category);
                 return;
             }
@@ -63,7 +63,7 @@ public class CategoryRepository {
     public void ChangeCategory(Category oldCategory, Category newCategory){
         Category searched;
         for(Category category : categories){
-            if(category.GetCategories() != null)
+            if(category.getCategories() != null)
                 searched = SearchForCategory(category, oldCategory);
             else
                 searched = null;
@@ -71,7 +71,7 @@ public class CategoryRepository {
                 Change(searched, newCategory);
                 return;
             }
-            else if(category.GetName().equals(oldCategory.GetName()))
+            else if(category.getName().equals(oldCategory.getName()))
             {
                 Change(category, newCategory);
                 return;
@@ -82,10 +82,10 @@ public class CategoryRepository {
 
     private Category SearchForCategory(Category catForSearch, Category searchCategory){
         Category searched = null;
-        for(Category category:catForSearch.GetCategories()){
-            if(category.GetCategories() != null)
+        for(Category category:catForSearch.getCategories()){
+            if(category.getCategories() != null)
                 searched = SearchForCategory(category, searchCategory);
-            else if(category.GetName().equals(searchCategory.GetName()))
+            else if(category.getName().equals(searchCategory.getName()))
                 return category;
         }
         return searched;

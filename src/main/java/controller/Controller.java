@@ -3,6 +3,7 @@ package controller;
 import actors.User;
 import models.Category;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import repository.CategoryRepository;
 import repository.UserRepository;
@@ -20,18 +21,23 @@ public class Controller {
     }
 
     @GetMapping("/log_in.html")
-    public String Log_in(){
+    public String Log_in(Model model){
+        model.addAttribute("user", new User());
         return "log_in";
     }
 
-    @PostMapping(value = "/log-in")
-    public String CheckLogin(@ModelAttribute User user, Model model){
+    @PostMapping(value = "/log_in.html")
+    public String CheckLogin( @ModelAttribute("user") User user, Model model){
         UserRepository repository = new UserRepository(); // change to service
 
         for (User user1 : repository.GetUsers()){
-            if(user1.GetMail().equals(user.GetMail())) {
-                if (user1.GetPassword().equals(user.GetPassword())) {
-                    if (user1.GetRole().equals("admin")) {
+            if(user1.getMail().equals(user.getMail())) {
+                if (user1.getPassword().equals(user.getPassword())) {
+                    if (user1.getRole().equals("admin")) {
+                        model.addAttribute("category", new Category(null, null, null));
+                        model.addAttribute("oldCategory", new Category(null, null, null));
+                        model.addAttribute("newCategory", new Category(null, null, null));
+                        model.addAttribute("deleteCategory", new Category(null, null, null));
                         return "admin";
                     } else {
                         return "index";
@@ -48,23 +54,24 @@ public class Controller {
     }
 
     @GetMapping("/admin.html")
-    public String Admin(){
+    public String Admin(Model model){
+        model.addAttribute("category", new Category(null, null, null));
         return "admin";
     }
 
     @RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
-    public String AdminChange(@ModelAttribute Category oldCategory, @ModelAttribute Category newCategory){
+    public String AdminChange(@ModelAttribute("oldCategory") Category oldCategory, @ModelAttribute("newCategory") Category newCategory){
         new CategoryRepository().ChangeCategory(oldCategory, newCategory); // change to service
         return "admin";
     }
 
     @PostMapping(value = "/addCategory")
-    public String AdminAdd(@ModelAttribute Category category){
+    public String AdminAdd(@ModelAttribute("category") Category category){
         new CategoryRepository().AddCategory(category); // change to service
         return "admin";
     }
     @PostMapping(value = "/deleteCategory")
-    public String AdminDelete(@ModelAttribute Category category){
+    public String AdminDelete(@ModelAttribute("deleteCategory") Category category){
         new CategoryRepository().DeleteCategory(category); // change to service
         return "admin";
     }
