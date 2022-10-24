@@ -5,9 +5,20 @@ public class User {
     private String mail;
     private String password;
 
+    public User(){
+
+    }
     public User(String role, String mail, String password){
         this.role = role;
         this.mail = mail;
+        this.password = password;
+    }
+    
+    public void setMail(String mail){
+        this.mail = mail;
+    }
+
+    public void setPassword(String password){
         this.password = password;
     }
 
