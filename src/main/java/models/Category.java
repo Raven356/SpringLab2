@@ -1,7 +1,11 @@
 package models;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+
 import java.util.ArrayList;
 
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Category {
     private ArrayList<Category> categories;
     private ArrayList<Goods> goods;

@@ -1,5 +1,9 @@
 package models;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Goods {
     private String name;
     private int price;
