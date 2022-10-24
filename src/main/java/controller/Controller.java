@@ -3,7 +3,6 @@ package controller;
 import actors.User;
 import models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,7 @@ public class Controller
 
     @GetMapping("/")
     public String StartPage(Model model){
-        model.addAttribute("categories", new CategoryRepository().GetCategories());//change to Category service
+        model.addAttribute("categories", new CategoryRepository().getCategories());//change to Category service
         return "index";
     }
 

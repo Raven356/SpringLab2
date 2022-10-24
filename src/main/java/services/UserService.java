@@ -1,7 +1,5 @@
 package services;
 import actors.User;
-import models.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
@@ -17,21 +15,21 @@ public class UserService
     {
         this.userRepository = UserRepo;
     }
-    public ArrayList<User> GetUsers(){
-        return userRepository.GetUsers();
+    public ArrayList<User> getUsers(){
+        return userRepository.getUsers();
     }
 
     //@Autowired
-    public void SetUserRepository(UserRepository userRepository){
+    public void setUserRepository(UserRepository userRepository){
         this.userRepository = userRepository;
     }
     public boolean AdminCheck(User user)
     {
-        for (User user1 : userRepository.GetUsers()){
-            if(user1.GetMail().equals(user.GetMail())) {
-                if (user1.GetPassword().equals(user.GetPassword()))
+        for (User user1 : userRepository.getUsers()){
+            if(user1.getMail().equals(user.getMail())) {
+                if (user1.getPassword().equals(user.getPassword()))
                 {
-                    return (user1.GetRole().equals("admin"));
+                    return (user1.getRole().equals("admin"));
                 }
             }
         }

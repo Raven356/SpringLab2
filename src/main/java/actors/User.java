@@ -1,9 +1,5 @@
 package actors;
 
-import lombok.Data;
-import org.springframework.stereotype.Component;
-
-@Data
 public class User {
     private String role;
     private String mail;
@@ -15,16 +11,16 @@ public class User {
         this.password = password;
     }
 
-    public String GetRole()
+    public String getRole()
     {
         return role;
     }
 
-    public String GetMail(){
+    public String getMail(){
         return mail;
     }
 
-    public String GetPassword(){
+    public String getPassword(){
         return password;
     }
 }

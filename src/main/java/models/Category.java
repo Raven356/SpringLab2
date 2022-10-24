@@ -13,15 +13,15 @@ public class Category {
         this.goods = goods;
     }
 
-    public ArrayList<Category> GetCategories(){
+    public ArrayList<Category> getCategories(){
         return categories;
     }
 
-    public ArrayList<Goods> GetGoods(){
+    public ArrayList<Goods> getGoods(){
         return goods;
     }
 
-    public String GetName(){
+    public String getName(){
         return name;
     }
 }
