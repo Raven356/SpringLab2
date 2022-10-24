@@ -1,63 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Catalog</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <meta charset="UTF-8">
+    <title>Main</title>
 </head>
 <body>
-<header class="header">
-    <div class="container">
-        <a href="/" class="logo" title="Store">
-            <img src="https://www.freeiconspng.com/thumbs/catalog-icon/catalog-icon-5.png" alt="Logo">
-        </a>
-        <div class="header-right">
-            <p>Electronic product catalog</p>
-        </div>
-    </div>
-</header>
-
-
-<!-- NEW -->
-<div class="menu">
-    <div class="container menu__container">
-        <div class="catalog">
-            <div class="catalog__wrapper">
-                <div class="catalog__header"><span>Categories</span><i class="fa fa-bars catalog__header-icon"></i></div>
-                <ul  th:each="category : ${categories}" class="catalog__list">
-                    <li class="catalog__item">
-                        <a href="" class="catalog__link" th:text="${category.name}">
-
-                        </a>
-                        <div th:if="${category.categories == null}" class="catalog__subcatalog">
-                            <ul th:each="item : ${category.goods}">
-                                <li>
-                                    <a href="" class="catalog__subcatalog-link" th:text="${item.name}"></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div th:unless="${category.categories == null}"  class="catalog__subcatalog">
-                            <ul th:each="subcategory : ${category.categories}">
-                                <li>
-                                    <a href="" class="catalog__subcatalog-link" th:text="${subcategory.name}"></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-        <nav class="menu__nav">
-            <a href="/log_in.html" class="menu__nav-link">Log in</a>
-        </nav>
-    </div>
-</div>
-<div class="slider">
-</div>
-<!-- END -->
-
-
-
+    <h1>Index</h1>
+    <a href="log_in.html">log-in</a>
+    <a href="admin.html">admin</a>
 </body>
 </html>

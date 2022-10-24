@@ -34,11 +34,8 @@ public class CategoryRepository {
     public ArrayList<Category> getCategories(){
         return categories;
     }
-
-
     public void setCategories(ArrayList<Category> categories)
     {
         this.categories = categories;
-
     }
 }

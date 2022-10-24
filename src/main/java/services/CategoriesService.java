@@ -1,9 +1,6 @@
 package services;
 import models.Category;
 //import org.springframework.beans.factory.annotation.Autowired;
-
-import models.Goods;
-
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import repository.CategoryRepository;
@@ -53,32 +50,6 @@ public class CategoriesService
         }
 
     }
-    
-    public void DeleteGoods(Category category){
-        Category searched;
-        ArrayList<Category> categories = categoryRepository.getCategories();
-        for(Category category1 : categories){
-            if(category1.getGoods() != null) {
-                if (category1.getCategories() != null) {
-                    searched = SearchForCategory(category1, category);
-                } else
-                    searched = null;
-                if (searched == null) {
-                    for (Goods goods : category1.getGoods()) {
-                        if (goods.getName().equals(category.getGoods().get(0).getName())) {
-                            category1.getGoods().remove(goods);
-                        }
-                    }
-                } else {
-                    for (Goods goods : searched.getGoods()) {
-                        if (goods.getName().equals(category.getGoods().get(0).getName())) {
-                            searched.getGoods().remove(goods);
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     public void ChangeCategory(Category oldCategory, Category newCategory){
         Category searched;
@@ -115,11 +86,6 @@ public class CategoriesService
     private void Change(Category oldCategory, Category newCategory){
         ArrayList<Category> categories = categoryRepository.getCategories();
         int position = categories.indexOf(oldCategory);
-
-        if(newCategory.getCategories() == null && newCategory.getGoods() == null){
-            newCategory.setCategories(oldCategory.getCategories());
-            newCategory.setGoods(oldCategory.getGoods());
-        }
         categories.remove(oldCategory);
         categories.add(position, newCategory);
     }

@@ -13,18 +13,6 @@ public class Category {
         this.goods = goods;
     }
 
-
-    public void setCategories(ArrayList<Category> categories){
-        this.categories = categories;
-    }
-
-    public void setGoods(ArrayList<Goods> goods){
-        this.goods = goods;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-
     public ArrayList<Category> getCategories(){
         return categories;
     }
@@ -36,5 +24,4 @@ public class Category {
     public String getName(){
         return name;
     }
-
 }
