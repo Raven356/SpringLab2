@@ -9,11 +9,11 @@ public class Goods {
         this.price = price;
     }
 
-    public String GetName(){
+    public String getName(){
         return name;
     }
 
-    public int GetPrice(){
+    public int getPrice(){
         return price;
     }
 
