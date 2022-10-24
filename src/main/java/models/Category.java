@@ -24,6 +24,7 @@ public class Category {
     public void setName(String name){
         this.name = name;
     }
+
     public ArrayList<Category> getCategories(){
         return categories;
     }

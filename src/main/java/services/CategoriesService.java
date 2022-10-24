@@ -1,7 +1,9 @@
 package services;
 import models.Category;
 //import org.springframework.beans.factory.annotation.Autowired;
+
 import models.Goods;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import repository.CategoryRepository;
@@ -51,7 +53,7 @@ public class CategoriesService
         }
 
     }
-
+    
     public void DeleteGoods(Category category){
         Category searched;
         ArrayList<Category> categories = categoryRepository.getCategories();
@@ -113,6 +115,7 @@ public class CategoriesService
     private void Change(Category oldCategory, Category newCategory){
         ArrayList<Category> categories = categoryRepository.getCategories();
         int position = categories.indexOf(oldCategory);
+
         if(newCategory.getCategories() == null && newCategory.getGoods() == null){
             newCategory.setCategories(oldCategory.getCategories());
             newCategory.setGoods(oldCategory.getGoods());

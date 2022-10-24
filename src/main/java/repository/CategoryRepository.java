@@ -35,6 +35,7 @@ public class CategoryRepository {
         return categories;
     }
 
+
     public void setCategories(ArrayList<Category> categories)
     {
         this.categories = categories;

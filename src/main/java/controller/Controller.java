@@ -2,8 +2,8 @@ package controller;
 
 import actors.User;
 import models.Category;
-
 import models.Goods;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.ui.Model;
@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import services.CategoriesService;
 import services.UserService;
 import thymeleafModels.CategoryGoodsNames;
-
 import java.util.ArrayList;
+import repository.CategoryRepository;
+import repository.UserRepository;
 
 
 @org.springframework.stereotype.Controller
@@ -32,7 +33,6 @@ public class Controller
     public String StartPage(Model model){
 
         model.addAttribute("categories", categoriesService.getCategories());
-
         return "index";
     }
 
@@ -42,19 +42,19 @@ public class Controller
         return "log_in";
     }
 
-
-
     @PostMapping(value = "/log_in.html")
     public String CheckLogin(@ModelAttribute User user, Model model){
         if (!userService.AdminCheck(user)) {
             model.addAttribute("wrongPass", "Your data was wrong");
             return "log_in";
         }
+
         else
         {
             SetAdminModel(model);
             return "admin";
         }
+
     }
 
     @GetMapping("/admin.html")
@@ -144,18 +144,17 @@ public class Controller
         return "admin";
     }
 
-
     @GetMapping("/index")
     public String Back(){
         return "index";
-    }
-
+        
     private void SetAdminModel(Model model){
         model.addAttribute("category", new Category(null, null, null));
         model.addAttribute("categoryGoodsNames", new CategoryGoodsNames());
         model.addAttribute("oldCategory", new Category(null, null, null));
         model.addAttribute("newCategory", new Category(null, null, null));
         model.addAttribute("deleteCategory", new Category(null, null, null));
+
     }
 
 

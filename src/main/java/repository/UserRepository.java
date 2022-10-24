@@ -19,6 +19,5 @@ public class UserRepository {
     public void setUsers(ArrayList<User> users)
     {
         this.users = users;
-
     }
 }
