@@ -3,14 +3,16 @@ package controller;
 import actors.User;
 import models.Category;
 
+import models.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import repository.CategoryRepository;
-import repository.UserRepository;
 import services.CategoriesService;
 import services.UserService;
+import thymeleafModels.CategoryGoodsNames;
+
+import java.util.ArrayList;
 
 
 @org.springframework.stereotype.Controller
@@ -50,10 +52,7 @@ public class Controller
         }
         else
         {
-            model.addAttribute("category", new Category(null, null, null));
-            model.addAttribute("oldCategory", new Category(null, null, null));
-            model.addAttribute("newCategory", new Category(null, null, null));
-            model.addAttribute("deleteCategory", new Category(null, null, null));
+            SetAdminModel(model);
             return "admin";
         }
     }
@@ -66,20 +65,82 @@ public class Controller
 
 
     @RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
-    public String AdminChange(@ModelAttribute Category oldCategory, @ModelAttribute Category newCategory){
-        categoriesService.ChangeCategory(oldCategory, newCategory);
+    public String AdminChange(@ModelAttribute Category oldCategory
+            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model){
+        Category newCategory = new Category(null, null, null);
+        if(!oldCategory.getName().equals("")){
+            if(!categoryGoodsNames.getCategoryName().equals("")){
+                newCategory.setName(categoryGoodsNames.getCategoryName());
+                if(categoryGoodsNames.getSubCategoryName().equals("")){
+                    newCategory.setCategories(null);
+                }
+                else
+                {
+                    newCategory.setCategories(new ArrayList<Category>(){
+                        {
+                            add(new Category(categoryGoodsNames.getSubCategoryName(), null, null));
+                        }
+                    });
+                }
+                if(categoryGoodsNames.getItemsName().equals("")){
+                    newCategory.setGoods(null);
+                }
+                else
+                {
+                    newCategory.setGoods(new ArrayList<Goods>(){
+                        {
+                            add(new Goods(categoryGoodsNames.getItemsName(), 0));
+                        }
+                    });
+                }
+            }
+            categoriesService.ChangeCategory(oldCategory, newCategory);
+        }
+        SetAdminModel(model);
         return "admin";
     }
 
     @PostMapping(value = "/addCategory")
-    public String AdminAdd(@ModelAttribute("category") Category category){
+    public String AdminAdd(@ModelAttribute("category") Category category
+            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model){
+        if(categoryGoodsNames.getSubCategoryName().equals(""))
+            category.setCategories(null);
+        else
+            category.setCategories(new ArrayList<Category>(){
+                {add(new Category(categoryGoodsNames.getSubCategoryName(), null, null));}
+            });
+        if(categoryGoodsNames.getItemsName().equals("")){
+            category.setGoods(null);
+        }
+        else{
+            category.setGoods(new ArrayList<Goods>(){
+                {add(new Goods(categoryGoodsNames.getItemsName(), 0));}
+            });
+        }
         categoriesService.AddCategory(category);
+        SetAdminModel(model);
         return "admin";
     }
     @PostMapping(value = "/deleteCategory")
-    public String AdminDelete(@ModelAttribute Category category){
-        categoriesService.DeleteCategory(category);
+    public String AdminDelete(@ModelAttribute("deleteCategory") Category category
+            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model){
+        if(!category.getName().equals("")){
+            category.setCategories(null);
 
+            if(categoryGoodsNames.getItemsName().equals("")) {
+                category.setGoods(null);
+                categoriesService.DeleteCategory(category);
+            }
+            else {
+                category.setGoods(new ArrayList<Goods>(){
+                    {
+                        add(new Goods(categoryGoodsNames.getItemsName(), 0));
+                    }
+                });
+                categoriesService.DeleteGoods(category);
+            }
+        }
+        SetAdminModel(model);
         return "admin";
     }
 
@@ -87,6 +148,14 @@ public class Controller
     @GetMapping("/index")
     public String Back(){
         return "index";
+    }
+
+    private void SetAdminModel(Model model){
+        model.addAttribute("category", new Category(null, null, null));
+        model.addAttribute("categoryGoodsNames", new CategoryGoodsNames());
+        model.addAttribute("oldCategory", new Category(null, null, null));
+        model.addAttribute("newCategory", new Category(null, null, null));
+        model.addAttribute("deleteCategory", new Category(null, null, null));
     }
 
 

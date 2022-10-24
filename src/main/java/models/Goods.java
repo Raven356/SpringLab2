@@ -1,23 +1,33 @@
 package models;
 
 public class Goods {
-    public String name;
-    public int price;
+    private String name;
+    private int price;
 
+    public Goods(){
+
+    }
     public Goods(String name, int price){
         this.name = name;
         this.price = price;
     }
 
-    public String GetName(){
+    public String getName(){
         return name;
     }
 
-    public int GetPrice(){
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setPrice(int price){
+        this.price = price;
+    }
+    public int getPrice(){
         return price;
     }
 
-    public String GetFullInfo(){
+    public String getFullInfo(){
         return "Name = " + name + ", Price = " + price;
     }
 }
