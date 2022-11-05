@@ -19,14 +19,11 @@ import java.util.ArrayList;
 @ComponentScan(basePackages={"services"})
 public class Controller
 {
-    private final CategoriesService categoriesService;
-    private final UserService userService;
     @Autowired
-    public Controller(CategoriesService categoriesService, UserService userService)
-    {
-        this.categoriesService = categoriesService;
-        this.userService = userService;
-    }
+    private CategoriesService categoriesService;
+    @Autowired
+    private UserService userService;
+
 
     @GetMapping("/")
     public String StartPage(Model model){

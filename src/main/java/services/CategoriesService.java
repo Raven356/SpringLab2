@@ -2,6 +2,7 @@ package services;
 import models.Category;
 //import org.springframework.beans.factory.annotation.Autowired;
 import models.Goods;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import repository.CategoryRepository;
@@ -12,13 +13,13 @@ import java.util.ArrayList;
 @ComponentScan(basePackages={"repository"})
 public class CategoriesService
 {
-
+    @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoriesService(CategoryRepository CatRepo)
-    {
-        categoryRepository = CatRepo;
-    }
+    //public CategoriesService(CategoryRepository CatRepo)
+    //{
+        //categoryRepository = CatRepo;
+    //}
     public ArrayList<Category> getCategories(){
         return categoryRepository.getCategories();
     }

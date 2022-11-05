@@ -23,18 +23,27 @@
     <div class="container menu__container">
         <div class="catalog">
             <div class="catalog__wrapper">
-                <div class="catalog__header"><span>Categories</span><i class="fa fa-bars catalog__header-icon"></i></div>
-                <ul  th:each="category : ${categories}" class="catalog__list">
+                <div class="catalog__header"><span th:text="${categories}?'Categories':'Undefiened'"></span><i class="fa fa-bars catalog__header-icon"></i></div>
+                <ul th:each="category : ${categories}" class="catalog__list">
                     <li class="catalog__item">
                         <a href="" class="catalog__link" th:text="${category.name}">
 
                         </a>
                         <div th:if="${category.categories == null}" class="catalog__subcatalog">
-                            <ul th:each="item : ${category.goods}">
-                                <li>
-                                    <a href="" class="catalog__subcatalog-link" th:text="${item.name}"></a>
-                                </li>
-                            </ul>
+                            <div th:switch="${category.goods}">
+                                <div th:case="null">
+                                    <ul>
+                                        <li>Undefined</li>
+                                    </ul>
+                                </div>
+                                <div th:case="*">
+                                    <ul th:each="item : ${category.goods}">
+                                        <li>
+                                            <a href="" class="catalog__subcatalog-link" th:text="${item.getName()}"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div th:unless="${category.categories == null}"  class="catalog__subcatalog">
                             <ul th:each="subcategory : ${category.categories}">

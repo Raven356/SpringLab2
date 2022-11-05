@@ -1,5 +1,6 @@
 package services;
 import actors.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
@@ -10,11 +11,12 @@ import java.util.ArrayList;
 @ComponentScan(basePackages={"repository"})
 public class UserService
 {
+    @Autowired
     private UserRepository userRepository;
-    public UserService(UserRepository UserRepo)
-    {
-        this.userRepository = UserRepo;
-    }
+    //public UserService(UserRepository UserRepo)
+    //{
+   //     this.userRepository = UserRepo;
+    //}
     public ArrayList<User> getUsers(){
         return userRepository.getUsers();
     }
