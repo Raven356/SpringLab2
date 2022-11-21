@@ -1,6 +1,7 @@
 package controller;
 
 import models.Category;
+import models.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import services.CategoriesService;
 import services.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
@@ -75,5 +77,21 @@ public class RestController {
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).build();
 
     }
+
+    @GetMapping("/filterCat/{category}")
+    public ResponseEntity<?> filterByCat(@PathVariable String category){
+        ArrayList<Category> categories = categoriesService.getCategories();
+        ArrayList<Goods> filtered = new ArrayList<>();
+        for(Category cat : categories){
+            if(cat.getName().equals(category)){
+                if(cat.getGoods() != null)
+                    filtered.addAll(cat.getGoods());
+            }
+        }
+        if(filtered.size() < 1)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return new ResponseEntity<>(filtered, HttpStatus.FOUND);
+    }
+
 
 }
