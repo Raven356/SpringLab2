@@ -93,5 +93,24 @@ public class RestController {
         return new ResponseEntity<>(filtered, HttpStatus.FOUND);
     }
 
+    @GetMapping("/page/{page}")
+    public ResponseEntity<?> page(@PathVariable int page){
+        ArrayList<Goods> goods = new ArrayList<>();
+        for (Category cat: categoriesService.getCategories()) {
+            if(cat.getGoods() != null){
+                goods.addAll(cat.getGoods());
+            }
+        }
+        ArrayList<Goods> goodsOnPage = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            if((i + (page - 1) * 4) >= goods.size())
+                break;
+            goodsOnPage.add(goods.get(i + (page - 1) * 4));
+        }
+        if(goodsOnPage.size() < 1)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return new ResponseEntity<>(goodsOnPage, HttpStatus.FOUND);
+    }
+
 
 }
