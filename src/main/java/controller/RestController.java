@@ -51,7 +51,7 @@ public class RestController {
         return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).build();
     }
 
-    @PostMapping("/deleteCat")
+    @DeleteMapping("/deleteCat")
     public ResponseEntity<Void> deleteCategory(@RequestBody Category category){
         try {
             categoriesService.DeleteCategory(category);
