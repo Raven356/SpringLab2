@@ -1,4 +1,4 @@
-package configuration;
+package controller.configuration;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;

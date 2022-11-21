@@ -84,7 +84,7 @@ public class RestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("desc", "Updating category");
