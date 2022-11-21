@@ -1,21 +1,23 @@
 package security;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//TEMPORARY DISABLED BECAUSE I'M A MONKEY AND DON'T KNOW FOR NOW HOW TO GET IT WORKING WITH POST
 
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.web.SecurityFilterChain;
 
-@EnableWebSecurity
-@Configuration
-public class SecurityConf {
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.headers()
-                .xssProtection()
-                .and()
-                .contentSecurityPolicy("script-src 'self'");
-        return http.build();
-    }
-}
+//@EnableWebSecurity
+//@Configuration
+//public class SecurityConf {
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.headers()
+//                .xssProtection()
+//                .and()
+//                .contentSecurityPolicy("script-src 'self'");
+//        return http.build();
+//    }
+//}

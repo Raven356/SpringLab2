@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import repository.CategoryRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @ComponentScan(basePackages={"repository"})
@@ -31,7 +32,7 @@ public class CategoriesService
         categoryRepository.getCategories().add(category);
     }
 
-    public void DeleteCategory(Category deleteCategory){
+    public void DeleteCategory(Category deleteCategory) throws Exception {
         Category searched;
         ArrayList<Category> categories = categoryRepository.getCategories();
         for(Category category : categories){
@@ -50,6 +51,7 @@ public class CategoriesService
                 return;
             }
         }
+        throw new Exception();
 
     }
 
@@ -79,7 +81,13 @@ public class CategoriesService
         }
     }
 
-    public void ChangeCategory(Category oldCategory, Category newCategory){
+    public void UpdateCategory(List<Category> categories){
+        int position = categories.indexOf(categories.get(0));
+        categories.remove(categories.get(0));
+        categories.add(position, categories.get(1));
+    }
+
+    public void ChangeCategory(Category oldCategory, Category newCategory) throws Exception {
         Category searched;
         ArrayList<Category> categories = categoryRepository.getCategories();
         for(Category category : categories){
@@ -98,6 +106,7 @@ public class CategoriesService
             }
         }
 
+        throw new Exception();
     }
 
     private Category SearchForCategory(Category catForSearch, Category searchCategory){
