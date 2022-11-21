@@ -1,4 +1,6 @@
 package services;
+import exceptions.CollisionException;
+import exceptions.NotFoundException;
 import models.Category;
 //import org.springframework.beans.factory.annotation.Autowired;
 import models.Goods;
@@ -28,7 +30,11 @@ public class CategoriesService
     public void setCategoryRepository(CategoryRepository categoryRepository){
         this.categoryRepository = categoryRepository;
     }
-    public void AddCategory(Category category){
+    public void AddCategory(Category category) throws CollisionException {
+        for(Category cat : categoryRepository.getCategories()){
+            if(cat.getName().equals(category.getName()))
+                throw new CollisionException();
+        }
         categoryRepository.getCategories().add(category);
     }
 
@@ -51,7 +57,7 @@ public class CategoriesService
                 return;
             }
         }
-        throw new Exception();
+        throw new NotFoundException();
 
     }
 
@@ -81,11 +87,7 @@ public class CategoriesService
         }
     }
 
-    public void UpdateCategory(List<Category> categories){
-        int position = categories.indexOf(categories.get(0));
-        categories.remove(categories.get(0));
-        categories.add(position, categories.get(1));
-    }
+
 
     public void ChangeCategory(Category oldCategory, Category newCategory) throws Exception {
         Category searched;
@@ -106,7 +108,7 @@ public class CategoriesService
             }
         }
 
-        throw new Exception();
+        throw new NotFoundException();
     }
 
     private Category SearchForCategory(Category catForSearch, Category searchCategory){

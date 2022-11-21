@@ -1,6 +1,7 @@
 package controller;
 
 import actors.User;
+import exceptions.CollisionException;
 import models.Category;
 
 import models.Goods;
@@ -96,7 +97,7 @@ public class Controller
 
     @PostMapping(value = "/addCategory")
     public String AdminAdd(@ModelAttribute("category") Category category
-            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model){
+            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model) throws CollisionException {
         if(categoryGoodsNames.getSubCategoryName().equals(""))
             category.setCategories(null);
         else

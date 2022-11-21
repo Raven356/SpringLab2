@@ -1,5 +1,7 @@
 package controller;
 
+import exceptions.CollisionException;
+import exceptions.NotFoundException;
 import models.Category;
 import models.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,9 @@ public class RestController {
         try {
             categoriesService.AddCategory(category);
         }
+        catch (CollisionException ex){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -56,6 +61,9 @@ public class RestController {
         try {
             categoriesService.DeleteCategory(category);
         }
+        catch (NotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -66,8 +74,14 @@ public class RestController {
 
     @PutMapping ("/changeCat")
     public ResponseEntity<Void> changeCategory(@RequestBody List<Category> categories){
+        if(categories.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
         try {
             categoriesService.ChangeCategory(categories.get(0), categories.get(1));
+        }
+        catch (NotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
