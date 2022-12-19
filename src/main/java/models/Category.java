@@ -18,7 +18,7 @@ public class Category {
 
     @Column(name = "Name")
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "CategoryId")
     private Category category;
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,
@@ -45,6 +45,10 @@ public class Category {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public Category(String name, ArrayList<Category> categories, ArrayList<Goods> goods){

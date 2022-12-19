@@ -61,6 +61,59 @@ public class RestController {
         return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).build();
     }
 
+    @PostMapping("/addCategories")
+    public ResponseEntity<Void> addGoods(@RequestBody Category category){
+        int id = 0;
+        try{
+            id = categoriesDbService.AddCategory(category);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("desc", "Adding goods");
+        httpHeaders.add("Id", String.valueOf(id));
+        return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).build();
+    }
+
+    @GetMapping("/selectCategoryByName/{name}")
+    public ResponseEntity<?> selectCatByName(@PathVariable String name){
+        try{
+            Category category = categoriesDbService.SelectCategoryByName(name);
+            return new ResponseEntity<>(category, HttpStatus.FOUND);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @DeleteMapping("/deleteCategories")
+    public ResponseEntity<Void> deleteCategories(@RequestBody Category category){
+        try {
+            category.setId(categoriesDbService.SelectCategoryByName(category.getName()).getId());
+            categoriesDbService.DeleteCategory(category);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("desc", "Deleting category");
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).build();
+    }
+
+    @PutMapping("/updateCategories/{id}")
+    public ResponseEntity<Void> updateCategories(@RequestBody Category category, @PathVariable int id) {
+        try {
+            category.setId(id);
+            categoriesDbService.AddCategory(category);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("desc", "Updating categories");
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).build();
+    }
+
     @PostMapping("/addGoods")
     public ResponseEntity<Void> addGoods(/*@RequestBody Goods goods*/){
         int id = 0;

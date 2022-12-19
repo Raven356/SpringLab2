@@ -20,8 +20,13 @@ public class CategoriesDbService {
     @Autowired
     private RestGoodsRepository restGoodsRepository;
 
-    public void AddCategory(Category category){
-        restCategoryRepository.save(category);
+    public int AddCategory(Category category){
+
+        return restCategoryRepository.save(category).getId();
+    }
+
+    public Category SelectCategoryByName(String name){
+        return restCategoryRepository.getCategoryByName(name);
     }
 
     public int AddGoods(Goods goods){
@@ -34,6 +39,10 @@ public class CategoriesDbService {
 
     public void DeleteGoods(Goods goods){
         restGoodsRepository.delete(goods);
+    }
+
+    public void DeleteCategory(Category category){
+        restCategoryRepository.delete(category);
     }
 
 }
