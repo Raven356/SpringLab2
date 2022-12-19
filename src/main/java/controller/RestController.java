@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import services.CategoriesDbService;
 import services.CategoriesService;
 import services.UserService;
 
@@ -24,6 +25,9 @@ public class RestController {
     private CategoriesService categoriesService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CategoriesDbService categoriesDbService;
 
     @GetMapping("/selectAll")
     public ResponseEntity<?> selectAll(){
@@ -44,6 +48,7 @@ public class RestController {
     public ResponseEntity<Void> addCategory(@RequestBody Category category){
         try {
             categoriesService.AddCategory(category);
+
         }
         catch (CollisionException ex){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -54,6 +59,65 @@ public class RestController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("desc", "Adding category");
         return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).build();
+    }
+
+    @PostMapping("/addGoods")
+    public ResponseEntity<Void> addGoods(/*@RequestBody Goods goods*/){
+        int id = 0;
+        try {
+            Goods goods1 = new Goods();
+            goods1.setName("d");
+            goods1.setPrice(1);
+            goods1.setCategory(null);
+            id = categoriesDbService.AddGoods(goods1);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("desc", "Adding goods");
+        httpHeaders.add("Id", String.valueOf(id));
+        return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).build();
+    }
+
+    @GetMapping("/selectGoodsByName/{name}")
+    public ResponseEntity<?> selectGoodsByName(@PathVariable String name){
+        try{
+            Goods goods = categoriesDbService.SelectGoodsByName(name);
+            return new ResponseEntity<>(goods, HttpStatus.FOUND);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @DeleteMapping("/deleteGoods")
+    public ResponseEntity<Void> deleteGoods(@RequestBody Goods goods){
+        try {
+            goods.setId(categoriesDbService.SelectGoodsByName(goods.getName()).getId());
+            categoriesDbService.DeleteGoods(goods);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("desc", "Deleting goods");
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).build();
+    }
+
+    @PutMapping("/updateGoods/{id}")
+    public ResponseEntity<Void> updateGoods(@RequestBody Goods goods, @PathVariable int id) {
+        try {
+            goods.setId(id);
+            categoriesDbService.AddGoods(goods);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("desc", "Updating goods");
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).build();
     }
 
     @DeleteMapping("/deleteCat")
