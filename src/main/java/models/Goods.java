@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Goods")
+@NamedQuery(name = "Goods.selectGoodsByPrice", query = "SELECT g from Goods g where g.price = :price")
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Goods {
     @Id

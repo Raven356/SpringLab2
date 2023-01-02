@@ -44,6 +44,19 @@ public class RestController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/selectGoodsByCategoryName/{name}")
+    public ResponseEntity<?>selectGoodsByCatName(@PathVariable String name){
+        List<Goods> goods = categoriesDbService.GetGoodByCategoryNameQuery(name);
+        if(goods.size() == 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        String message = "Goods:\n";
+        for(Goods good : goods){
+            message += good.getName() + "\n";
+        }
+        return new ResponseEntity<>(message,HttpStatus.FOUND);
+    }
+
     @PostMapping("/addCat")
     public ResponseEntity<Void> addCategory(@RequestBody Category category){
         try {
@@ -80,7 +93,7 @@ public class RestController {
     public ResponseEntity<?> selectCatByName(@PathVariable String name){
         try{
             Category category = categoriesDbService.SelectCategoryByName(name);
-            return new ResponseEntity<>(category, HttpStatus.FOUND);
+            return new ResponseEntity<>("Id: " + category.getId() + " name: " + category.getName() + " goods: " + category.getGoods() + " categories: " + category.getCategories(), HttpStatus.FOUND);
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -137,12 +150,24 @@ public class RestController {
     public ResponseEntity<?> selectGoodsByName(@PathVariable String name){
         try{
             Goods goods = categoriesDbService.SelectGoodsByName(name);
-            return new ResponseEntity<>(goods, HttpStatus.FOUND);
+            return new ResponseEntity<>(goods.getName(), HttpStatus.FOUND);
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+    }
+    @GetMapping("/selectGoodsByPriceNamed/{price}")
+    public ResponseEntity<?> selectGoodsByPrice(@PathVariable Integer price){
+        List<Goods> goods = categoriesDbService.GetGoodsByPrice(price);
+        if(goods.size() == 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        String message = "Goods:\n";
+        for (Goods good : goods){
+            message += good.getName() + "\n";
+        }
+        return new ResponseEntity<>(message, HttpStatus.FOUND);
     }
 
     @DeleteMapping("/deleteGoods")
@@ -241,6 +266,18 @@ public class RestController {
         if(goodsOnPage.size() < 1)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         return new ResponseEntity<>(goodsOnPage, HttpStatus.FOUND);
+    }
+
+    @PostMapping("/transaction/{name}")
+    public ResponseEntity<?> trans(@PathVariable String name, @RequestBody Goods good){
+        try {
+            categoriesDbService.transMethod(name, good);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
     }
 
 
