@@ -1,6 +1,7 @@
 package controller;
 
 import actors.User;
+import exceptions.CollisionException;
 import models.Category;
 
 import models.Goods;
@@ -24,12 +25,9 @@ public class Controller
     @Autowired
     private UserService userService;
 
-
     @GetMapping("/")
     public String StartPage(Model model){
-
         model.addAttribute("categories", categoriesService.getCategories());
-
         return "index";
     }
 
@@ -63,7 +61,7 @@ public class Controller
 
     @RequestMapping(value = "/changeCategory", method = RequestMethod.POST)
     public String AdminChange(@ModelAttribute Category oldCategory
-            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model){
+            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model) throws Exception {
         Category newCategory = new Category(null, null, null);
         if(!oldCategory.getName().equals("")){
             if(!categoryGoodsNames.getCategoryName().equals("")){
@@ -99,7 +97,7 @@ public class Controller
 
     @PostMapping(value = "/addCategory")
     public String AdminAdd(@ModelAttribute("category") Category category
-            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model){
+            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model) throws CollisionException {
         if(categoryGoodsNames.getSubCategoryName().equals(""))
             category.setCategories(null);
         else
@@ -120,7 +118,7 @@ public class Controller
     }
     @PostMapping(value = "/deleteCategory")
     public String AdminDelete(@ModelAttribute("deleteCategory") Category category
-            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model){
+            , @ModelAttribute("categoryGoodsNames") CategoryGoodsNames categoryGoodsNames, Model model) throws Exception {
         if(!category.getName().equals("")){
             category.setCategories(null);
 

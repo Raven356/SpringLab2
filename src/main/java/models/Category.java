@@ -3,13 +3,53 @@ package models;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "Category")
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Category {
-    private ArrayList<Category> categories;
-    private ArrayList<Goods> goods;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
+
+
+    @Column(name = "Name")
     private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "CategoryId")
+    private Category category;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Category> categories;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Goods> goods;
+
+    public Category(){
+
+    }
+
+    public Category(ArrayList<Category> categories, ArrayList<Goods> goods, String name, Category category){
+        this.categories = categories;
+        this.goods = goods;
+        this.name = name;
+        this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
 
     public Category(String name, ArrayList<Category> categories, ArrayList<Goods> goods){
         this.name = name;
@@ -17,22 +57,25 @@ public class Category {
         this.goods = goods;
     }
 
+    public int getId() {
+        return Id;
+    }
 
-    public void setCategories(ArrayList<Category> categories){
+    public void setCategories(List<Category> categories){
         this.categories = categories;
     }
 
-    public void setGoods(ArrayList<Goods> goods){
+    public void setGoods(List<Goods> goods){
         this.goods = goods;
     }
     public void setName(String name){
         this.name = name;
     }
-    public ArrayList<Category> getCategories(){
+    public List<Category> getCategories(){
         return categories;
     }
 
-    public ArrayList<Goods> getGoods(){
+    public List<Goods> getGoods(){
         return goods;
     }
 

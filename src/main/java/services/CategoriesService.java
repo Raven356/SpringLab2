@@ -1,4 +1,6 @@
 package services;
+import exceptions.CollisionException;
+import exceptions.NotFoundException;
 import models.Category;
 //import org.springframework.beans.factory.annotation.Autowired;
 import models.Goods;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import repository.CategoryRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @ComponentScan(basePackages={"repository"})
@@ -27,11 +30,15 @@ public class CategoriesService
     public void setCategoryRepository(CategoryRepository categoryRepository){
         this.categoryRepository = categoryRepository;
     }
-    public void AddCategory(Category category){
+    public void AddCategory(Category category) throws CollisionException {
+        for(Category cat : categoryRepository.getCategories()){
+            if(cat.getName().equals(category.getName()))
+                throw new CollisionException();
+        }
         categoryRepository.getCategories().add(category);
     }
 
-    public void DeleteCategory(Category deleteCategory){
+    public void DeleteCategory(Category deleteCategory) throws Exception {
         Category searched;
         ArrayList<Category> categories = categoryRepository.getCategories();
         for(Category category : categories){
@@ -50,6 +57,7 @@ public class CategoriesService
                 return;
             }
         }
+        throw new NotFoundException();
 
     }
 
@@ -79,7 +87,9 @@ public class CategoriesService
         }
     }
 
-    public void ChangeCategory(Category oldCategory, Category newCategory){
+
+
+    public void ChangeCategory(Category oldCategory, Category newCategory) throws Exception {
         Category searched;
         ArrayList<Category> categories = categoryRepository.getCategories();
         for(Category category : categories){
@@ -98,6 +108,7 @@ public class CategoriesService
             }
         }
 
+        throw new NotFoundException();
     }
 
     private Category SearchForCategory(Category catForSearch, Category searchCategory){
